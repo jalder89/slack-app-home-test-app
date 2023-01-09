@@ -17,6 +17,45 @@ app.event('app_home_opened', async ({ event, client }) => {
             channel: event.user,
             text: `Welcome home, <@${event.user}>!`
         });
+
+        // Call views.publish with the built-in client
+        await client.views.publish({
+            user_id: event.user,
+            view: {
+                "type": "home",
+                "blocks": [
+                    {
+                        "type": "header",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Welcome to the App Home App"
+                        }
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Load a test view",
+                                    "emoji": true
+                                },
+                                "style": "primary",
+                                "value": "create_view"
+                            }
+                        ]
+                    }
+                ]
+            }
+        });
+
+    } else {
+        // Send message saying, you've been here before
+        await client.chat.postMessage({
+            channel: event.user,
+            text: `Welcome back, <@${event.user}>!`
+        });
     }
 });
 
